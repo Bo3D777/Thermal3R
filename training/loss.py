@@ -528,9 +528,7 @@ def compute_gradient_cosine_loss(pred_depth, gt_image, gt_depth):
     max_depth = gt_depth.max(dim=1, keepdim=True)[0].max(dim=2, keepdim=True)[0].max(dim=3, keepdim=True)[0]
     normalized_depth = gt_depth / (max_depth + 1e-6)  # [B, 1, H, W]
     
-    # We want to maximize similarity, so minimize (1 - similarity)
-    loss = 1 - cosine_sim.mean()
-    return loss*0.01
+    return 0.01 * (1 - cosine_sim.abs().mean())
 
 
 def compute_gradient_cosine_loss1(pred_depth, gt_image, gt_depth):
